@@ -184,4 +184,26 @@ class ArrowFromBottomView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : ArrowFromBottomView) {
+
+        private val animator : Animator = Animator(view)
+        private val afb : ArrowFromBottom = ArrowFromBottom(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            afb.draw(canvas, paint)
+            animator.animate {
+                afb.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            afb.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
