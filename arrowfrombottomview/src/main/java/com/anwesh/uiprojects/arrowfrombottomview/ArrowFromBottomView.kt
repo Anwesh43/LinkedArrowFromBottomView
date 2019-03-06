@@ -19,7 +19,7 @@ val strokeFactor : Int = 90
 val sizeFactor : Float = 2.9f
 val foreColor : Int = Color.parseColor("#673AB7")
 val backColor : Int = Color.parseColor("#212121")
-val arrowSizeFactor : Int = 3
+val arrowSizeFactor : Int = 2
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
@@ -27,6 +27,7 @@ fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
 fun Float.mirrorValue(a : Int, b : Int) : Float = (1 - scaleFactor()) * a.inverse() + scaleFactor() * b.inverse()
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float = mirrorValue(a, b) * dir * scGap
+fun Int.sf() : Float = 1f - 2 * this
 
 fun Canvas.drawAFBNode(i : Int, scale : Float, paint : Paint) {
     val w : Float = width.toFloat()
@@ -46,7 +47,7 @@ fun Canvas.drawAFBNode(i : Int, scale : Float, paint : Paint) {
         val sc : Float = sc2.divideScale(j, lines)
         save()
         translate(0f, -size)
-        rotate(45f * (1 - sc))
+        rotate(45f * (1 - sc) * j.sf())
         drawLine(0f, 0f, 0f, arrowSize, paint)
         restore()
     }
