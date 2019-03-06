@@ -207,4 +207,12 @@ class ArrowFromBottomView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity : Activity) : ArrowFromBottomView {
+            val view : ArrowFromBottomView = ArrowFromBottomView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
